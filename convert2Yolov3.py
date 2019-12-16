@@ -13,6 +13,7 @@ from PIL import Image
 import xml.etree.ElementTree as ET
 import csv
 from xml.etree.ElementTree import Element, SubElement, dump, ElementTree, parse
+import shutil  # copy2
 
 class color:
     BOLD = '\033[1m'
@@ -31,6 +32,8 @@ class convert2Yolov3(object):
         self.image_dir = image_dir
         self.anno_dir = anno_dir
         self.label_dir = label_dir
+        self.images_copy_dir = images_copy_path
+        self.image_copy_flag = image_copy_flag
 
         self.label_list = "train"
 
@@ -340,7 +343,7 @@ class convert2Yolov3(object):
 
         # Get input text file list
         xml_list = []
-        dir_list = [] # sangkny
+        dir_list = [] # sangkny it stores full path except xml file itself
 
         for (dirpath, dirnames, filenames) in walk(anno_dir):
             rootpath = os.path.join(os.path.abspath(anno_dir), dirpath)
@@ -362,7 +365,7 @@ class convert2Yolov3(object):
         try:
 
             # Process
-            for idx, xml_name in enumerate(xml_list):
+            for idx, xml_name in enumerate(xml_list): # sangkny modification
                 print(color.BOLD + color.RED +"------------------------- XML Parsing -------------------------" + color.END)
 
                 # open xml file
@@ -388,7 +391,6 @@ class convert2Yolov3(object):
                 if len(objects) == 0:
                     print(color.BOLD + color.RED + "ERROR : can't find object tag" + color.END)
 
-
                     if os.path.exists(xml_path):
                         xml_file.close()
                         os.remove(xml_path)
@@ -411,8 +413,22 @@ class convert2Yolov3(object):
                     print(color.BOLD + color.RED + "xml and image size different" + color.END)
                     raise Exception("xml and image size different")
 
+                # copy images to the images_copy_path
+                if(self.image_copy_flag == 'True'):
+                    if(os.path.isdir(self.images_copy_dir) == False):
+                        try:
+                            os.mkdir(self.images_copy_dir)
+                        except Exception as e:
+                            print(color.BOLD + color.RED +"ERROR -> Cannot create fold: {}".format(self.images_copy_dir) + color.END)
+
+                    # copy file
+                    #shutil.copy2('/src/dir/file.ext', '/dst/dir/newname.ext')  # complete target filename given
+                    shutil.copy2(img_path, self.images_copy_dir)
+                # end copy loop
+
                 # Open output result files
-                result_outpath = str(self.root_dir + label_dir + xml_name[:-3] + "txt")
+                #result_outpath = str(self.root_dir + label_dir + xml_name[:-3] + "txt")
+                result_outpath = str(label_dir + xml_name[:-3] + "txt")  # here label_dir is fullpath without a file name
                 result_outfile = open(result_outpath, "w")
                 print("Output:" + result_outpath + '\n')
 
