@@ -414,7 +414,7 @@ class convert2Yolov3(object):
                     raise Exception("xml and image size different")
 
                 # copy images to the images_copy_path
-                if(self.image_copy_flag == 'True'):
+                if(str(self.image_copy_flag).lower() == str('true')):
                     if(os.path.isdir(self.images_copy_dir) == False):
                         try:
                             os.mkdir(self.images_copy_dir)
@@ -427,6 +427,14 @@ class convert2Yolov3(object):
                 # end copy loop
 
                 # Open output result files
+                # make dir if none
+                if (os.path.isdir(label_dir) == False):
+                    try:
+                        os.mkdir(label_dir)
+                    except Exception as e:
+                        print(color.BOLD + color.RED + "ERROR -> Cannot create fold: {}".format(
+                            label_dir) + color.END)
+                        
                 #result_outpath = str(self.root_dir + label_dir + xml_name[:-3] + "txt")
                 result_outpath = str(label_dir + xml_name[:-3] + "txt")  # here label_dir is fullpath without a file name
                 result_outfile = open(result_outpath, "w")
