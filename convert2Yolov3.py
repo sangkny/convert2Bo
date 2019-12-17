@@ -6,7 +6,9 @@ This script is to convert the txt annotation files to appropriate format needed 
 @author: Martin Hwang
 Email: dhhwang89@gmail.com
 """
-
+"""
+if the given base_dir has some folder, then the following dir should be relative. Otherwise, absolute path
+"""
 import os
 from os import walk, getcwd
 from PIL import Image
@@ -23,12 +25,13 @@ class color:
 
 class convert2Yolov3(object):
 
-    def __init__(self, classes_path, image_dir = "example/voc/JPEG/", anno_dir = "example/voc/label/", label_dir = "example/voc/results/",
+    def __init__(self, base_dir, classes_path, image_dir = "example/voc/JPEG/", anno_dir = "example/voc/label/", label_dir = "example/voc/results/",
                  images_copy_path = "example/voc/images", image_copy_flag=True):
 
         self.classes = self.read_class(classes_path)
 
         self.root_dir = getcwd() + "/"
+        self.base_dir = base_dir
         self.image_dir = image_dir
         self.anno_dir = anno_dir
         self.label_dir = label_dir
@@ -327,18 +330,25 @@ class convert2Yolov3(object):
         except Exception as e:
             print(color.BOLD + color.RED + "ERROR : {}".format(e) + color.END)
 
-    def parsingVocXML(self, image_dir=None, anno_dir=None, label_dir=None, label_list=None):
+    def parsingVocXML(self, image_dir=None, anno_dir=None, label_dir=None, images_copy_dir=None, label_list=None):
 
         if image_dir is None:
-            image_dir = self.image_dir
+            image_dir = (self.base_dir + self.image_dir).strip()
         if anno_dir is None:
-            anno_dir = self.anno_dir
+            anno_dir = (self.base_dir + self.anno_dir).strip()
         if label_dir is None:
-            label_dir = self.label_dir
+            label_dir = (self.base_dir + self.label_dir).strip()
+        if images_copy_dir is None:
+            images_copy_dir = (self.base_dir + self.images_copy_dir).strip()
         if label_list is None:
             label_list = self.label_list
 
-        work_dir = getcwd()
+
+        if(self.base_dir is not str('')):
+            work_dir=self.base_dir
+        else:
+            work_dir = getcwd()
+
         list_file = list_file = open('%s/%s_list.txt' % (work_dir, label_list), 'w')
 
         # Get input text file list
@@ -414,16 +424,16 @@ class convert2Yolov3(object):
                     raise Exception("xml and image size different")
 
                 # copy images to the images_copy_path
-                if(str(self.image_copy_flag).lower() == str('true')):
-                    if(os.path.isdir(self.images_copy_dir) == False):
+                if(str(self.image_copy_flag).lower() == str('true') or (int(self.image_copy_flag) > 0)):
+                    if(os.path.isdir(images_copy_dir) == False):
                         try:
-                            os.mkdir(self.images_copy_dir)
+                            os.mkdir(images_copy_dir)
                         except Exception as e:
-                            print(color.BOLD + color.RED +"ERROR -> Cannot create fold: {}".format(self.images_copy_dir) + color.END)
+                            print(color.BOLD + color.RED +"ERROR -> Cannot create fold: {}".format(images_copy_dir) + color.END)
 
                     # copy file
                     #shutil.copy2('/src/dir/file.ext', '/dst/dir/newname.ext')  # complete target filename given
-                    shutil.copy2(img_path, self.images_copy_dir)
+                    shutil.copy2(img_path, images_copy_dir)
                 # end copy loop
 
                 # Open output result files
@@ -434,7 +444,7 @@ class convert2Yolov3(object):
                     except Exception as e:
                         print(color.BOLD + color.RED + "ERROR -> Cannot create fold: {}".format(
                             label_dir) + color.END)
-                        
+
                 #result_outpath = str(self.root_dir + label_dir + xml_name[:-3] + "txt")
                 result_outpath = str(label_dir + xml_name[:-3] + "txt")  # here label_dir is fullpath without a file name
                 result_outfile = open(result_outpath, "w")
