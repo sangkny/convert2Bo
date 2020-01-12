@@ -6,6 +6,14 @@
 ## arg example
 ## --base_dir=E:/temp/ --class_path=itms.names --image_dir=4581_20190902220000/ --anno_dir=4581_20190902220000/ --label_dir=4581_20190902220000/results/ --image_copy_path=images/ --image_copy_flag=1
 If the given base_dir has some folder, then the following dir should be relative. Otherwise, absolute path
+
+D:/sangkny/pyTest/MLDL/codes/convert2Bo/
+itms.names
+D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/voc/JPEG/
+D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/voc/label/
+D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/voc/results/
+D:/sangkny/pyTest/MLDL/codes/convert2Bo/images/ True
+
 """
 from convert2Yolov3 import convert2Yolov3
 import sys
@@ -48,20 +56,25 @@ if __name__ == '__main__':
     print("image_copy flag: {}".format(image_copy))
     '''
     parser = argparse.ArgumentParser()
-    parser.add_argument('--base_dir', type=str, default='', help='base dir', required=True) # base
-    parser.add_argument('--class_path', type=str, default='itms.names', help= 'class path and name', required= True)  # class path
-    parser.add_argument('--image_dir', type=str, default='example/voc/JPEG/', help='image data', required= True) # image folder
-    parser.add_argument('--anno_dir', type=str, default='example/voc/label/', help='annotation foloder: xml files', required=True) # label data with xml
-    parser.add_argument('--label_dir', type=str, default='example/voc/results/', help='converted label path', required=True)
-    parser.add_argument('--image_copy_path', type=str, default='example/voc/images/', help='image path to move from origin data')
-    parser.add_argument('--image_copy_flag', type = int, default= 1, help='copy images to a folder?', required= True)
+    parser.add_argument('--base_dir', type=str, default='d:/sangkny/pyTest/MLDL/convert2Bo/', help='base dir')#, required=True) # base
+    parser.add_argument('--class_path', type=str, default='itms.names', help= 'class path and name')#, required= True)  # class path
+    parser.add_argument('--image_dir', type=str, default='example/voc/JPEG/', help='image data')#, required= True) # image folder
+    parser.add_argument('--anno_dir', type=str, default='example/voc/label/', help='annotation foloder: xml files')#, required=True) # label data with xml
+    parser.add_argument('--label_dir', type=str, default='example/voc/results/', help='converted label path')#, required=True)
+    parser.add_argument('--image_copy_path', type=str, default='example/voc/images/')#, help='image path to move from origin data')
+    parser.add_argument('--image_copy_flag', type = int, default= 1, help='copy images to a folder?')#, required= True)
 
     opt = parser.parse_args()
 
     # temp settings
+    opt.base_dir = ""
+    opt.class_path = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/itms.names"
+    opt.image_dir = "C:/Users/SangkeunLee/Downloads/113511-122311/"
+    opt.anno_dir = "C:/Users/SangkeunLee/Downloads/113511-122311/"
+    opt.label_dir = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/itms/results/"
+    opt.image_copy_path = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/itms/images/"
+    opt.image_copy_flag = True
 
-
-    # opt.weights = last if opt.resume else opt.weights
     print(opt)
 
 

@@ -1,0 +1,1 @@
+D:/sangkny/pyTest/MLDL/codes/convert2Bo/ itms.names D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/voc/JPEG/ D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/voc/label/ D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/voc/results/ D:/sangkny/pyTest/MLDL/codes/convert2Bo/images/ True
