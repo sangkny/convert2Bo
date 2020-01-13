@@ -67,6 +67,7 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     # temp settings
+    ''' home 
     opt.base_dir = ""
     opt.class_path = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/itms.names"
     opt.image_dir = "C:/Users/SangkeunLee/Downloads/113511-122311/"
@@ -74,7 +75,15 @@ if __name__ == '__main__':
     opt.label_dir = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/itms/results/"
     opt.image_copy_path = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/itms/images/"
     opt.image_copy_flag = True
-
+    '''
+    # office
+    opt.base_dir = ""
+    opt.class_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/itms.names"
+    opt.image_dir = "E:/Topes_data_related/traffic_related/113511-122311/"
+    opt.anno_dir = "E:/Topes_data_related/traffic_related/113511-122311/"
+    opt.label_dir = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/results/"
+    opt.image_copy_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/images/"
+    opt.image_copy_flag = True
     print(opt)
 
 
