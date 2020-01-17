@@ -79,8 +79,8 @@ if __name__ == '__main__':
     # office
     opt.base_dir = ""
     opt.class_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/itms.names"
-    opt.image_dir = "E:/Topes_data_related/traffic_related/113511-122311/"
-    opt.anno_dir = "E:/Topes_data_related/traffic_related/113511-122311/"
+    opt.image_dir = "E:/Topes_data_related/traffic_related/130148-141049/"
+    opt.anno_dir = "E:/Topes_data_related/traffic_related/130148-141049/"
     opt.label_dir = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/results/"
     opt.image_copy_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/images/"
     opt.image_copy_flag = True
