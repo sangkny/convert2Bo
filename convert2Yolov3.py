@@ -26,7 +26,7 @@ class color:
 class convert2Yolov3(object):
 
     def __init__(self, base_dir, classes_path, image_dir = "example/voc/JPEG/", anno_dir = "example/voc/label/", label_dir = "example/voc/results/",
-                 images_copy_path = "example/voc/images", image_copy_flag=True):
+                 images_copy_path = "example/voc/images", image_copy_flag=True, image_ext = 'jpg'):
 
         self.classes = self.read_class(classes_path)
 
@@ -37,6 +37,7 @@ class convert2Yolov3(object):
         self.label_dir = label_dir
         self.images_copy_dir = images_copy_path
         self.image_copy_flag = image_copy_flag
+        self.image_ext = image_ext
 
         self.label_list = "train"
 
@@ -343,11 +344,12 @@ class convert2Yolov3(object):
         if label_list is None:
             label_list = self.label_list
 
-
         if(self.base_dir is not str('')):
             work_dir=self.base_dir
         else:
             work_dir = getcwd()
+
+        image_ext = self.image_ext
 
         list_file = list_file = open('%s/%s_list.txt' % (work_dir, label_list), 'w')
 
@@ -395,7 +397,7 @@ class convert2Yolov3(object):
                 xml_width = int(size.find('width').text)
                 xml_height = int(size.find('height').text)
                 image_dir = dir_list[idx] # sangkny
-                img_path = str('%s/%s.jpg' % (image_dir, os.path.splitext(xml_name)[0]))
+                img_path = str('%s/%s.%s' % (image_dir, os.path.splitext(xml_name)[0], image_ext))
 
                 objects = root.findall('object')
                 if len(objects) == 0:
@@ -477,14 +479,14 @@ class convert2Yolov3(object):
                     # conver to relative center and width height
                     rb = self.convertCoordinate([xml_width, xml_height], b) # by sangkny
 
-                    cls_id = self.classes.index(cls)
+                    cls_id = self.classes.index(cls)%12
                     print('class name, index : ' + '(' + str(cls) + ", " + str(cls_id) + ')')
                     print("bndbox Size : " + str(b))
                     print("convert relative result : " + str(rb) + '\n')
                     result_outfile.write(str(cls_id)+" " +" ".join([str(a) for a in rb]) + '\n') # sangkny change the order of classid and coordinates
 
                 result_outfile.close()
-                list_file.writelines('%s%s.jpg\n' % (self.root_dir + image_dir, os.path.splitext(xml_name)[0]))
+                list_file.writelines('%s%s.%s\n' % (self.root_dir + image_dir, os.path.splitext(xml_name)[0],  image_ext))
             list_file.close()
             print(color.BOLD + color.RED +"------------------------- XML Parsing -------------------------" + color.END)
 

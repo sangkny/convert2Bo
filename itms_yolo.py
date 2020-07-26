@@ -63,7 +63,7 @@ if __name__ == '__main__':
     parser.add_argument('--label_dir', type=str, default='example/voc/results/', help='converted label path')#, required=True)
     parser.add_argument('--image_copy_path', type=str, default='example/voc/images/')#, help='image path to move from origin data')
     parser.add_argument('--image_copy_flag', type = int, default= 1, help='copy images to a folder?')#, required= True)
-
+    parser.add_argument('--image_ext', type=str, default='jpg', help='image extension')
     opt = parser.parse_args()
 
     # temp settings
@@ -76,17 +76,35 @@ if __name__ == '__main__':
     opt.image_copy_path = "D:/sangkny/pyTest/MLDL/codes/convert2Bo/example/itms/images/"
     opt.image_copy_flag = True
     '''
-    # office
+    # ----   office ---------
+    # ---- version 20200205
+    # opt.base_dir = ""
+    # opt.class_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/itms.names"
+    # opt.image_dir = "E:/Topes_data_related/traffic_related/130148-141049/"
+    # opt.anno_dir = "E:/Topes_data_related/traffic_related/130148-141049/"
+    # opt.label_dir = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/results/"
+    # opt.image_copy_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/images/"
+    # # ---- version 20200426 with 주간 보행 라벨링 이미지 결과
+    # opt.base_dir = ""
+    # opt.class_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/itms.names"
+    # opt.image_dir = "E:/Topes_data_related/주간 보행 라벨링 이미지 결과/130148-141049/"
+    # opt.anno_dir = "E:/Topes_data_related/주간 보행 라벨링 이미지 결과/130148-141049/"
+    # opt.label_dir = "E:/Topes_data_related/traffic_related/20200426_20200421_data/results/"
+    # opt.image_copy_path = "E:/Topes_data_related/traffic_related/20200426_20200421_data/images/"
+
+    # ---- version 20200726 with 11M
     opt.base_dir = ""
     opt.class_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/itms.names"
-    opt.image_dir = "E:/Topes_data_related/traffic_related/130148-141049/"
-    opt.anno_dir = "E:/Topes_data_related/traffic_related/130148-141049/"
-    opt.label_dir = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/results/"
-    opt.image_copy_path = "E:/Topes_data_related/traffic_related/20190903_국도10개소수집_10분_result(2)/images/"
+    opt.image_dir = "E:/Topes_data_related/labelling/11M/11M-20200604-105755-주간 단독 갓길 정지 보행/"
+    opt.anno_dir = "E:/Topes_data_related/labelling/11M/11M-20200604-105755-주간 단독 갓길 정지 보행/"
+    opt.label_dir = "E:/Topes_data_related/labelling/11M/results/"
+    opt.image_copy_path = "E:/Topes_data_related/labelling/11M/images/"
+    opt.image_ext = "bmp"
+
     opt.image_copy_flag = True
     print(opt)
 
 
     toYolo = convert2Yolov3(base_dir= opt.base_dir, classes_path = opt.class_path, image_dir=opt.image_dir, anno_dir=opt.anno_dir, label_dir=opt.label_dir,
-                            images_copy_path=opt.image_copy_path, image_copy_flag=opt.image_copy_flag)
+                            images_copy_path=opt.image_copy_path, image_copy_flag=opt.image_copy_flag, image_ext= opt.image_ext)
     toYolo.parsingVocXML()
